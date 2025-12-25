@@ -53,7 +53,6 @@ def search_libraries(book_name):
 
 # 화면 구성
 st.title("📚 통합 전자도서관 검색")
-st.write("제목 입력 후 **엔터(Enter)**를 누르면 6개 도서관을 동시에 검색합니다.")
 st.markdown("---")
 
 keyword = st.text_input("책 제목을 입력하세요", placeholder="예: 행복의 기원", key="search_input")
@@ -64,7 +63,7 @@ if keyword:
         
         col1, col2 = st.columns([2, 1])
         col1.write("**도서관 이름**")
-        col2.write("**소장 현황 (클릭 시 이동)**")
+        col2.write("**소장 현황**")
         st.divider()
 
         for item in res:
