@@ -5,7 +5,7 @@ import re
 from urllib.parse import quote
 
 # 페이지 설정
-st.set_page_config(page_title="도서관 통합 검색", page_icon="📚")
+st.set_page_config(page_title="전자도서관 통합검색", page_icon="📚")
 
 # 안정적으로 작동하는 도서관 리스트
 libraries = [
@@ -52,7 +52,7 @@ def search_libraries(book_name):
     return results
 
 # 화면 구성
-st.title("📚 통합 전자도서관 검색")
+st.title("📚 전자도서관 통합검색")
 st.markdown("---")
 
 query_params = st.query_params
