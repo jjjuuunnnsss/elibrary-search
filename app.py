@@ -33,4 +33,19 @@ def search_libraries(book_name):
             else:
                 search_url = f"{lib['url']}?{lib['key_param']}={encoded_query}&schClst=ctts%2Cautr&schDvsn=001"
 
-            resp = requests.get(search_url, timeout
+            resp = requests.get(search_url, timeout=5)
+            count = 0
+            if resp.status_code == 200:
+                tree = html.fromstring(resp.content)
+                nodes = tree.xpath(lib["xpath"])
+                if nodes:
+                    count_match = re.findall(r'\d+', "".join(nodes))
+                    count = int(count_match[0]) if count_match else 0
+            
+            display = f"{count}권" if count > 0 else "없음"
+            results.append({"도서관 이름": lib['name'], "소장 현황": search_url, "텍스트": display})
+        except:
+            results.append({"도서관 이름": lib['name'], "소장 현황": "#", "텍스트": "확인불가"})
+
+    # 직접 확인 도서관 추가
+    encoded_utf8
