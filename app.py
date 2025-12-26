@@ -8,7 +8,7 @@ import pandas as pd
 # 페이지 설정
 st.set_page_config(page_title="전자도서관 통합검색", page_icon="📚")
 
-# [중요] 변수를 함수보다 먼저 선언해야 NameError가 나지 않습니다.
+# 6개 도서관 데이터 정의
 libraries = [
     {"name": "성남시", "url": "https://vodbook.snlib.go.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
     {"name": "경기대", "url": "https://ebook.kyonggi.ac.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
@@ -42,16 +42,16 @@ def search_libraries(book_name):
                     count = int(count_match[0]) if count_match else 0
             
             display = f"{count}권" if count > 0 else "없음"
-            results.append({"도서관 이름": lib['name'], "소장 현황": display, "URL": search_url})
+            results.append({"도서관 이름": lib['name'], "소장 현황": search_url, "display_text": display})
         except:
-            results.append({"도서관 이름": lib['name'], "소장 현황": "확인불가", "URL": "#"})
+            results.append({"도서관 이름": lib['name'], "소장 현황": "#", "display_text": "확인불가"})
 
     # 직접 확인 도서관 추가
     encoded_utf8 = quote(book_name.encode("utf-8"))
     direct_links = [
-        {"도서관 이름": "서울도서관", "소장 현황": "링크 확인", "URL": f"https://elib.seoul.go.kr/contents/search/content?t=EB&k={encoded_utf8}"},
-        {"도서관 이름": "서초구", "소장 현황": "링크 확인", "URL": f"https://e-book.seocholib.or.kr/search?keyword={encoded_utf8}"},
-        {"도서관 이름": "부천시", "소장 현황": "링크 확인", "URL": f"https://ebook.bcl.go.kr:444/elibrary-front/search/searchList.ink?schTxt={encoded_utf8}&schClst=ctts%2Cautr&schDvsn=001"}
+        {"도서관 이름": "서울도서관", "소장 현황": f"https://elib.seoul.go.kr/contents/search/content?t=EB&k={encoded_utf8}", "display_text": "링크 확인"},
+        {"도서관 이름": "서초구", "소장 현황": f"https://e-book.seocholib.or.kr/search?keyword={encoded_utf8}", "display_text": "링크 확인"},
+        {"도서관 이름": "부천시", "소장 현황": f"https://ebook.bcl.go.kr:444/elibrary-front/search/searchList.ink?schTxt={encoded_utf8}&schClst=ctts%2Cautr&schDvsn=001", "display_text": "링크 확인"}
     ]
     results.extend(direct_links)
     
@@ -73,15 +73,25 @@ if keyword:
         data = search_libraries(keyword)
         df = pd.DataFrame(data)
         
-        # 모바일에서도 가로 레이아웃을 유지하는 데이터 표 출력
+        # 2개 컬럼만 노출하도록 설정
         st.data_editor(
             df,
             column_config={
                 "도서관 이름": st.column_config.TextColumn("도서관 이름", width="medium"),
-                "소장 현황": st.column_config.TextColumn("소장 현황", width="small"),
-                "URL": st.column_config.LinkColumn("이동", display_text="열기"),
+                "소장 현황": st.column_config.LinkColumn(
+                    "소장 현황", 
+                    display_text=r"^.*$", # 데이터프레임의 display_text 컬럼값을 사용하기 위한 설정
+                    width="small"
+                ),
             },
+            # display_text 컬럼은 링크의 이름으로만 사용하고 표에서는 숨깁니다.
+            column_order=("도서관 이름", "소장 현황"),
             hide_index=True,
             use_container_width=True,
             disabled=True
         )
+
+        # 링크 작동을 위해 display_text를 LinkColumn의 텍스트로 매칭시키는 팁:
+        # 데이터프레임의 실제 '소장 현황' 컬럼에는 URL이 들어가고, 
+        # display_text 옵션에 정규식이나 특정 컬럼을 지정할 수 있습니다. 
+        # 위 방식이 가장 깔끔하게 컬럼 2개를 유지합니다.
