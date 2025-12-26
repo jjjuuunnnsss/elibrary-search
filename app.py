@@ -5,16 +5,16 @@ import re
 from urllib.parse import quote
 
 # 페이지 설정
-st.set_page_config(page_title="도서관 통합 검색", page_icon="📚")
+st.set_page_config(page_title="전자도서관 통합검색", page_icon="📚")
 
 # 실시간 결과 추출이 가능한 6개 도서관
 libraries = [
-    {"name": "성남시 전자도서관", "url": "https://vodbook.snlib.go.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
-    {"name": "경기대학교", "url": "https://ebook.kyonggi.ac.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
-    {"name": "용인시 전자책도서관", "url": "https://ebook.yongin.go.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
-    {"name": "수원시 전자도서관", "url": "https://ebook.suwonlib.go.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
-    {"name": "고양시 도서관센터", "url": "https://ebook.goyanglib.or.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
-    {"name": "강남구 전자도서관", "url": "https://ebook.gangnam.go.kr/elibbook/book_info.asp", "key_param": "strSearch", "xpath": '//*[@id="container"]/div[1]/div[2]/div[1]/div/div[2]/div[1]/div[1]/div/strong/text()', "encoding": "euc-kr", "type": "gangnam"}
+    {"name": "성남시", "url": "https://vodbook.snlib.go.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
+    {"name": "경기대", "url": "https://ebook.kyonggi.ac.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
+    {"name": "용인시", "url": "https://ebook.yongin.go.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
+    {"name": "수원시", "url": "https://ebook.suwonlib.go.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
+    {"name": "고양시", "url": "https://ebook.goyanglib.or.kr/elibrary-front/search/searchList.ink", "key_param": "schTxt", "xpath": '//*[@id="container"]/div/div[4]/p/strong[2]/text()', "encoding": "utf-8", "type": "ink"},
+    {"name": "강남구", "url": "https://ebook.gangnam.go.kr/elibbook/book_info.asp", "key_param": "strSearch", "xpath": '//*[@id="container"]/div[1]/div[2]/div[1]/div/div[2]/div[1]/div[1]/div/strong/text()', "encoding": "euc-kr", "type": "gangnam"}
 ]
 
 def search_libraries(book_name):
@@ -41,7 +41,7 @@ def search_libraries(book_name):
                     count_match = re.findall(r'\d+', "".join(nodes))
                     count = int(count_match[0]) if count_match else 0
                 
-                display = f"[{count}권 발견]({search_url})" if count > 0 else "없음"
+                display = f"[{count}권]({search_url})" if count > 0 else "없음"
             else:
                 display = "접속지연"
         except:
@@ -58,14 +58,14 @@ def search_libraries(book_name):
     ]
     
     for item in direct_links:
-        results.append({"도서관": item["도서관"], "결과": f"[직접 확인]({item['url']})"})
+        results.append({"도서관": item["도서관"], "결과": f"[직접 방문확인]({item['url']})"})
 
     progress_bar.empty()
     return results
 
 # 화면 구성
-st.title("📚 통합 전자도서관 검색")
-st.write("제목 입력 후 **엔터(Enter)**를 누르세요. (Alfred 연동 지원)")
+st.title("📚 전자도서관 통합검색")
+st.write("제목 입력 후 엔터(Enter)를 누르세요.")
 st.markdown("---")
 
 # Alfred 연동을 위한 URL 파라미터 읽기
