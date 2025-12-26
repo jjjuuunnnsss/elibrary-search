@@ -57,8 +57,8 @@ def search_libraries(book_name):
     progress_bar.empty()
     return results
 
-# 4. 화면 구성
-st.title("📚 전자도서관 통합검색")
+# 화면 구성
+st.markdown('<h2 style="font-size:24px; margin-top:-50px; margin-bottom:10px;">📚 전자도서관 통합검색</h2>', unsafe_allow_html=True)
 url_params = st.query_params
 url_keyword = url_params.get("search", "")
 
