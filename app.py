@@ -77,7 +77,7 @@ def search_libraries(book_name):
                                 if book.get("PK"): unique_pks.add(book.get("PK"))
                 results.append({
                     "name": lib['name'], 
-                    "link": f"https://ebook.library.kr/search?keyword={quote(book_name)}&searchType=all", 
+                    "link": f"https://ebook.library.kr/search?keyword={quote(book_name)}&searchType=all&contentType=EB", 
                     "count": len(unique_pks)
                 })
 
