@@ -116,17 +116,17 @@ if keyword:
             .lib-table tr { 
                 border-bottom: 1px solid rgba(128, 128, 128, 0.3); 
             }
-            /* 헤더 스타일: 14px 유지 및 중간 회색 */
+            /* 헤더 스타일: 15px 유지 및 중간 회색 */
             .lib-table th { 
                 text-align: left; 
-                padding: 12px; 
-                font-size: 14px;
+                padding: 14px; 
+                font-size: 15px;
                 color: #808080;
                 font-weight: 600;
             }
             .lib-table td { 
                 padding: 14px 12px; 
-                font-size: 14px;
+                font-size: 15px;
             }
             /* 도서관 명칭: 다크/라이트 공통 중간 회색 고정 */
             .lib-name {
