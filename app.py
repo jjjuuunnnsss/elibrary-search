@@ -132,9 +132,9 @@ if keyword:
             body { font-family: "Source Sans Pro", sans-serif; margin: 0; background-color: transparent; }
             .lib-table { width: 100%; border-collapse: collapse; }
             .lib-table tr { border-bottom: 1px solid rgba(128, 128, 128, 0.3); }
-            .lib-table th { text-align: left; padding: 14px; font-size: 15px; color: #808080; font-weight: 600; }
+            .lib-table th { text-align: left; padding: 14px; font-size: 15px; color: #707070; font-weight: 600; }
             .lib-table td { padding: 14px 12px; font-size: 15px; }
-            .lib-name { color: #808080; font-weight: 500; }
+            .lib-name { color: #808080; font-weight: bold; }
             .status-link { text-decoration: none; }
             .status-exist { color: #007bff; font-weight: bold; }
             .status-none { color: #808080; font-weight: normal; }
