@@ -1,0 +1,17 @@
+name: Keep Streamlit App Awake
+
+on:
+  schedule:
+    # 매일 한국 시간 09:00, 21:00에 실행 (UTC 00:00, 12:00)
+    - cron: '0 0,12 * * *'
+  workflow_dispatch: # 필요할 때 수동으로 '실행' 버튼을 누를 수 있게 합니다.
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reach Out to App
+        run: |
+          # -L은 리다이렉션을 따라가고, -s는 출력물을 숨깁니다.
+          curl -s -L https://booksearch4me.streamlit.app/ > /dev/null
+          echo "Successfully pinged the app at $(date)"
